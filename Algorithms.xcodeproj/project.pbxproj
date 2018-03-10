@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A910BD7F20543CB5009CF180 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A910BD7E20543CB5009CF180 /* main.m */; };
+		A910BD7F20543CB5009CF180 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = A910BD7E20543CB5009CF180 /* main.mm */; };
+		A98E4B65205447FD00285E4B /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A98E4B63205447FD00285E4B /* Matrix.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +25,9 @@
 
 /* Begin PBXFileReference section */
 		A910BD7B20543CB5009CF180 /* Algorithms */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Algorithms; sourceTree = BUILT_PRODUCTS_DIR; };
-		A910BD7E20543CB5009CF180 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A910BD7E20543CB5009CF180 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		A98E4B63205447FD00285E4B /* Matrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
+		A98E4B64205447FD00285E4B /* Matrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +60,9 @@
 		A910BD7D20543CB5009CF180 /* Algorithms */ = {
 			isa = PBXGroup;
 			children = (
-				A910BD7E20543CB5009CF180 /* main.m */,
+				A98E4B63205447FD00285E4B /* Matrix.cpp */,
+				A98E4B64205447FD00285E4B /* Matrix.hpp */,
+				A910BD7E20543CB5009CF180 /* main.mm */,
 			);
 			path = Algorithms;
 			sourceTree = "<group>";
@@ -119,7 +124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A910BD7F20543CB5009CF180 /* main.m in Sources */,
+				A98E4B65205447FD00285E4B /* Matrix.cpp in Sources */,
+				A910BD7F20543CB5009CF180 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
