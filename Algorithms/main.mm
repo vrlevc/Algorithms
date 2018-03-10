@@ -34,16 +34,25 @@ auto Print = [](auto& v, int r, int c, int rN, int cN)->void
 
 int main(int argc, const char * argv[])
 {
-    iMatrix A(5,5,Randomize100);
-    iMatrix B(5,5,Randomize100);
+    static const int N = 2*2*2*2;
     
-    iMatrix C = A * B;
+    iMatrix A(N,N,Randomize100);
+    iMatrix B(N,N,Randomize100);
+    
+    iMatrix C0 = A * B;
     
     A.foreach(Print);
     printf("  *\n");
     B.foreach(Print);
     printf("  =\n");
-    C.foreach(Print);
+    C0.foreach(Print);
+    
+    iMatrix C1 = MatrixMultR(A, B);
+    
+    printf("  =\n");
+    C1.foreach(Print);
+    
+    printf("Matrix %s\n", C0 == C1 ? "EQUAL" : "NOT EQUAL");
     
     return 0;
 }

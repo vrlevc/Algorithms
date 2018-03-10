@@ -41,6 +41,8 @@ public:
     Matrix(const Matrix<T>& matrix);
     Matrix(const Matrix<T>& matrix, int r0, int rN, int c0, int cN);
     
+    Matrix<T>& operator=(const Matrix<T>& matrix);
+    
     Matrix<T> Row(int r);
     Matrix<T> Col(int c);
     
@@ -51,8 +53,48 @@ public:
     int Vals() const { return Rows()*Cols(); }
     
     void foreach( void(*f)(T& v) );
+    void foreach( void(*f)(T& v, int r, int c) );
     void foreach( void(*f)(T& v, int r, int c, int rN, int cN) );
 };
+
+template<typename T>
+Matrix<T> operator+(const Matrix<T>& A, const Matrix<T>& B);
+
+template<typename T>
+Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B);
+
+template<typename T>
+bool operator==(const Matrix<T>& A, const Matrix<T>& B);
+
+template<typename T>
+bool operator!=(const Matrix<T>& A, const Matrix<T>& B);
+
+template<typename T>
+Matrix<T>& Matrix<T>::operator=(const Matrix<T>& matrix)
+{
+    if ( _sharedData != matrix._sharedData )
+    {
+        assert( matrix.Rows() == Rows()&& matrix.Cols() == Cols() );
+    
+        for (int r=0; r<Rows(); ++r)
+            for (int c=0; c<Cols(); ++c)
+                value(r,c) = matrix.value(r,c);
+    }
+    return *this;
+}
+
+template<typename T>
+Matrix<T> operator+(const Matrix<T>& A, const Matrix<T>& B)
+{
+    assert( A.Rows() == B.Rows()&& A.Cols() == B.Cols() );
+    Matrix<T> C(A.Rows(), A.Cols());
+    
+    for (int r=0; r<C.Rows(); ++r)
+        for (int c=0; c<C.Cols(); ++c)
+            C.value(r,c) = A.value(r,c) + B.value(r,c);
+    
+    return C;
+}
 
 template<typename T>
 Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B)
@@ -68,6 +110,52 @@ Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B)
     return C;
 }
 
+template<typename T>
+bool operator==(const Matrix<T>& A, const Matrix<T>& B)
+{
+    bool equal = ( A.Rows() == B.Rows()&& A.Cols() == B.Cols() );
+    if ( equal )
+    {
+        for (int r=0; r<A.Rows()&&equal; ++r)
+            for (int c=0; c<A.Cols()&&equal; ++c)
+                equal = ( A.value(r,c) == B.value(r,c) );
+    }
+    return equal;
+}
+
+template<typename T>
+bool operator!=(const Matrix<T>& A, const Matrix<T>& B)
+{
+    return !( A == B );
+}
+
+template<typename T>
+Matrix<T> MatrixMultR(const Matrix<T>& A, const Matrix<T>& B)
+{
+    int N = A.Rows();
+    Matrix<T> C(N,N);
+    if (N==1)
+    {
+        C.value(0, 0) = A.value(0, 0) * B.value(0, 0);
+    }
+    else
+    {
+        int n = N / 2;
+        Matrix<T> A11(A, 0, n, 0, n), A12(A, 0, n, n, n);
+        Matrix<T> A21(A, n, n, 0, n), A22(A, n, n, n, n);
+        Matrix<T> B11(B, 0, n, 0, n), B12(B, 0, n, n, n);
+        Matrix<T> B21(B, n, n, 0, n), B22(B, n, n, n, n);
+        Matrix<T> C11(C, 0, n, 0, n), C12(C, 0, n, n, n);
+        Matrix<T> C21(C, n, n, 0, n), C22(C, n, n, n, n);
+        
+        C11 = MatrixMultR(A11,B11) + MatrixMultR(A12,B21);
+        C12 = MatrixMultR(A11,B12) + MatrixMultR(A12,B22);
+        C21 = MatrixMultR(A21,B11) + MatrixMultR(A22,B21);
+        C22 = MatrixMultR(A21,B12) + MatrixMultR(A22,B22);
+    }
+    return C;
+}
+
 // MARK: -
 
 template<typename T>
@@ -78,6 +166,18 @@ void Matrix<T>::foreach( void(*f)(T& v) )
         for (int c=_c0; c<_c0+_cN; ++c)
         {
             f( _sharedData->_data[r*_sharedData->_cN+c] );
+        }
+    }
+}
+
+template<typename T>
+void Matrix<T>::foreach( void(*f)(T& v, int r, int c) )
+{
+    for (int r=_r0; r<_r0+_rN; ++r)
+    {
+        for (int c=_c0; c<_c0+_cN; ++c)
+        {
+            f( _sharedData->_data[r*_sharedData->_cN+c], r-_r0, c-_c0 );
         }
     }
 }
