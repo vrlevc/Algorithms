@@ -34,7 +34,7 @@ auto Print = [](auto& v, int r, int c, int rN, int cN)->void
 
 int main(int argc, const char * argv[])
 {
-    static const int N = 2*2*2*2;
+    static const int N = 5;
     
     iMatrix A(N,N,Randomize100);
     iMatrix B(N,N,Randomize100);

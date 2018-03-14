@@ -10,6 +10,7 @@
 #define Matrix_hpp
 
 #include <stdlib.h>
+#include <math.h>
 
 // MARK: -
 
@@ -41,7 +42,8 @@ public:
     Matrix(const Matrix<T>& matrix);
     Matrix(const Matrix<T>& matrix, int r0, int rN, int c0, int cN);
     
-    Matrix<T>& operator=(const Matrix<T>& matrix);
+    Matrix<T>& operator= (const Matrix<T>& matrix);
+    Matrix<T>& operator+=(const Matrix<T>& matrix);
     
     Matrix<T> Row(int r);
     Matrix<T> Col(int c);
@@ -80,6 +82,18 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& matrix)
             for (int c=0; c<Cols(); ++c)
                 value(r,c) = matrix.value(r,c);
     }
+    return *this;
+}
+
+template<typename T>
+Matrix<T>& Matrix<T>::operator+=(const Matrix<T> &matrix)
+{
+    assert( Rows() == matrix.Rows()&& Cols() == matrix.Cols() );
+    
+    for (int r=0; r<Rows(); ++r)
+        for (int c=0; c<Cols(); ++c)
+            value(r,c) += matrix.value(r,c);
+    
     return *this;
 }
 
@@ -133,18 +147,22 @@ template<typename T>
 Matrix<T> MatrixMultR(const Matrix<T>& A, const Matrix<T>& B)
 {
     int N = A.Rows();
-    Matrix<T> C(N,N);
-    if (N==1)
+    Matrix<T> C(N, N);
+    
+    if ( N==1 )
     {
         C.value(0, 0) = A.value(0, 0) * B.value(0, 0);
     }
     else
     {
         int n = N / 2;
+        
         Matrix<T> A11(A, 0, n, 0, n), A12(A, 0, n, n, n);
         Matrix<T> A21(A, n, n, 0, n), A22(A, n, n, n, n);
+        
         Matrix<T> B11(B, 0, n, 0, n), B12(B, 0, n, n, n);
         Matrix<T> B21(B, n, n, 0, n), B22(B, n, n, n, n);
+        
         Matrix<T> C11(C, 0, n, 0, n), C12(C, 0, n, n, n);
         Matrix<T> C21(C, n, n, 0, n), C22(C, n, n, n, n);
         
@@ -152,6 +170,28 @@ Matrix<T> MatrixMultR(const Matrix<T>& A, const Matrix<T>& B)
         C12 = MatrixMultR(A11,B12) + MatrixMultR(A12,B22);
         C21 = MatrixMultR(A21,B11) + MatrixMultR(A22,B21);
         C22 = MatrixMultR(A21,B12) + MatrixMultR(A22,B22);
+        
+        if ( N % 2 == 1 )
+        {
+            Matrix<T> A13(A,   0, n, N-1, 1), A23(A,  n,  n, N-1, 1);
+            Matrix<T> A31(A, N-1, 1,   0, n), A32(A, N-1, 1,   n, n);
+            Matrix<T> A33(A, N-1, 1, N-1, 1), B33(B, N-1, 1, N-1, 1);
+            Matrix<T> B13(B,   0, n, N-1, 1), B23(B,  n,  n, N-1, 1);
+            Matrix<T> B31(B, N-1, 1,   0, n), B32(B, N-1, 1,   n, n);
+            
+            C11 += A13*B31;     C12 += A13*B32;
+            C21 += A23*B31;     C22 += A23*B32;
+            
+            Matrix<T> C31(C, N-1, 1, 0, n), C32(C, N-1, 1, n, n);
+            Matrix<T> C13(C, 0, n, N-1, 1), C23(C, n, n, N-1, 1);
+            Matrix<T> C33(C, N-1, 1, N-1, 1);
+            
+            C31 = A31*B11 + A32*B21 + A33*B31;
+            C32 = A31*B12 + A32*B22 + A33*B32;
+            C13 = A11*B13 + A12*B23 + A13*B33;
+            C23 = A21*B13 + A22*B23 + A23*B33;
+            C33 = A31*B13 + A32*B23 + A33*B33;
+        }
     }
     return C;
 }
