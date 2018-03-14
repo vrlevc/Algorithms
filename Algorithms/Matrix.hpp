@@ -63,6 +63,9 @@ template<typename T>
 Matrix<T> operator+(const Matrix<T>& A, const Matrix<T>& B);
 
 template<typename T>
+Matrix<T> operator-(const Matrix<T>& A, const Matrix<T>& B);
+
+template<typename T>
 Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B);
 
 template<typename T>
@@ -111,6 +114,19 @@ Matrix<T> operator+(const Matrix<T>& A, const Matrix<T>& B)
 }
 
 template<typename T>
+Matrix<T> operator-(const Matrix<T>& A, const Matrix<T>& B)
+{
+    assert( A.Rows() == B.Rows()&& A.Cols() == B.Cols() );
+    Matrix<T> C(A.Rows(), A.Cols());
+    
+    for (int r=0; r<C.Rows(); ++r)
+        for (int c=0; c<C.Cols(); ++c)
+            C.value(r,c) = A.value(r,c) - B.value(r,c);
+    
+    return C;
+}
+
+template<typename T>
 Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B)
 {
     assert( A.Cols() == B.Rows() );
@@ -146,6 +162,8 @@ bool operator!=(const Matrix<T>& A, const Matrix<T>& B)
 template<typename T>
 Matrix<T> MatrixMultR(const Matrix<T>& A, const Matrix<T>& B)
 {
+    assert(A.Cols() == B.Rows());
+    
     int N = A.Rows();
     Matrix<T> C(N, N);
     
@@ -193,6 +211,85 @@ Matrix<T> MatrixMultR(const Matrix<T>& A, const Matrix<T>& B)
             C33 = A31*B13 + A32*B23 + A33*B33;
         }
     }
+    return C;
+}
+
+template<typename T>
+Matrix<T> MatrixMultStrassen(const Matrix<T>& A, const Matrix<T>& B)
+{
+    assert(A.Cols() == B.Rows());
+    
+    int N = A.Rows();
+    Matrix<T> C(N, N);
+    
+    if ( N==1 )
+    {
+        C.value(0, 0) = A.value(0, 0) * B.value(0, 0);
+    }
+    else
+    {
+        int n = N / 2;
+        
+        Matrix<T> A11(A, 0, n, 0, n), A12(A, 0, n, n, n);
+        Matrix<T> A21(A, n, n, 0, n), A22(A, n, n, n, n);
+        
+        Matrix<T> B11(B, 0, n, 0, n), B12(B, 0, n, n, n);
+        Matrix<T> B21(B, n, n, 0, n), B22(B, n, n, n, n);
+        
+        Matrix<T> S1(n,n), S2(n,n), S3(n,n), S4(n,n), S5(n,n), S6(n,n), S7(n,n), S8(n,n), S9(n,n), S10(n,n);
+        
+        S1  = B12 - B22;
+        S2  = A11 + A12;
+        S3  = A21 + A22;
+        S4  = B21 - B11;
+        S5  = A11 + A22;
+        S6  = B11 + B22;
+        S7  = A12 - A22;
+        S8  = B21 + B22;
+        S9  = A11 - A21;
+        S10 = B11 + B12;
+
+        Matrix<T> P1(n,n), P2(n,n), P3(n,n), P4(n,n), P5(n,n), P6(n,n), P7(n,n);
+        
+        P1 = MatrixMultStrassen(A11,  S1);
+        P2 = MatrixMultStrassen( S2, B22);
+        P3 = MatrixMultStrassen( S3, B11);
+        P4 = MatrixMultStrassen(A22,  S4);
+        P5 = MatrixMultStrassen( S5,  S6);
+        P6 = MatrixMultStrassen( S7,  S8);
+        P7 = MatrixMultStrassen( S9, S10);
+        
+        Matrix<T> C11(C, 0, n, 0, n), C12(C, 0, n, n, n);
+        Matrix<T> C21(C, n, n, 0, n), C22(C, n, n, n, n);
+        
+        C11 = P5 + P4 - P2 + P6;
+        C12 = P1 + P2;
+        C21 = P3 + P4;
+        C22 = P5 + P1 - P3 - P7;
+        
+        if ( N % 2 == 1 )
+        {
+            Matrix<T> A13(A,   0, n, N-1, 1), A23(A,  n,  n, N-1, 1);
+            Matrix<T> A31(A, N-1, 1,   0, n), A32(A, N-1, 1,   n, n);
+            Matrix<T> A33(A, N-1, 1, N-1, 1), B33(B, N-1, 1, N-1, 1);
+            Matrix<T> B13(B,   0, n, N-1, 1), B23(B,  n,  n, N-1, 1);
+            Matrix<T> B31(B, N-1, 1,   0, n), B32(B, N-1, 1,   n, n);
+            
+            C11 += A13*B31;     C12 += A13*B32;
+            C21 += A23*B31;     C22 += A23*B32;
+            
+            Matrix<T> C31(C, N-1, 1, 0, n), C32(C, N-1, 1, n, n);
+            Matrix<T> C13(C, 0, n, N-1, 1), C23(C, n, n, N-1, 1);
+            Matrix<T> C33(C, N-1, 1, N-1, 1);
+            
+            C31 = A31*B11 + A32*B21 + A33*B31;
+            C32 = A31*B12 + A32*B22 + A33*B32;
+            C13 = A11*B13 + A12*B23 + A13*B33;
+            C23 = A21*B13 + A22*B23 + A23*B33;
+            C33 = A31*B13 + A32*B23 + A33*B33;
+        }
+    }
+    
     return C;
 }
 

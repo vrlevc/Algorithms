@@ -34,7 +34,7 @@ auto Print = [](auto& v, int r, int c, int rN, int cN)->void
 
 int main(int argc, const char * argv[])
 {
-    static const int N = 5;
+    static const int N = 11;
     
     iMatrix A(N,N,Randomize100);
     iMatrix B(N,N,Randomize100);
@@ -52,7 +52,13 @@ int main(int argc, const char * argv[])
     printf("  =\n");
     C1.foreach(Print);
     
+    iMatrix C2 = MatrixMultStrassen(A, B);
+
+    printf("  =\n");
+    C2.foreach(Print);
+
     printf("Matrix %s\n", C0 == C1 ? "EQUAL" : "NOT EQUAL");
+    printf("Matrix %s\n", C0 == C2 ? "EQUAL" : "NOT EQUAL");
     
     return 0;
 }
