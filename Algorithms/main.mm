@@ -19,8 +19,8 @@ typedef Matrix<double>      dMatrix;
 auto Randomize100 = [](auto& v)->void
 {
     static const long Baundry = 100;
-    v = (rand() + time(nullptr)) % Baundry;
-    v *=  ( rand() + time(nullptr) ) % 2 ? +1 : -1;
+    v  = ( rand() + time(nullptr) ) % Baundry;
+    v *= ( rand() + time(nullptr) ) % 2 ? +1 : -1;
 };
 
 auto Print = [](auto& v, int r, int c, int rN, int cN)->void

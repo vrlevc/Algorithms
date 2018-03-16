@@ -127,20 +127,6 @@ Matrix<T> operator-(const Matrix<T>& A, const Matrix<T>& B)
 }
 
 template<typename T>
-Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B)
-{
-    assert( A.Cols() == B.Rows() );
-    Matrix<T> C(A.Rows(), B.Cols());
-    
-    for (int r=0; r<C.Rows(); ++r)
-        for (int c=0; c<C.Cols(); ++c)
-            for (int k=0; k<A.Cols(); ++k)
-                C.value(r,c) += A.value(r,k) * B.value(k,c);
-    
-    return C;
-}
-
-template<typename T>
 bool operator==(const Matrix<T>& A, const Matrix<T>& B)
 {
     bool equal = ( A.Rows() == B.Rows()&& A.Cols() == B.Cols() );
@@ -157,6 +143,20 @@ template<typename T>
 bool operator!=(const Matrix<T>& A, const Matrix<T>& B)
 {
     return !( A == B );
+}
+
+template<typename T>
+Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B)
+{
+    assert( A.Cols() == B.Rows() );
+    Matrix<T> C(A.Rows(), B.Cols());
+    
+    for (int r=0; r<C.Rows(); ++r)
+        for (int c=0; c<C.Cols(); ++c)
+            for (int k=0; k<A.Cols(); ++k)
+                C.value(r,c) += A.value(r,k) * B.value(k,c);
+    
+    return C;
 }
 
 template<typename T>
