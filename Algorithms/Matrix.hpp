@@ -12,6 +12,10 @@
 #include <stdlib.h>
 #include <math.h>
 
+// MARK: Test main function
+
+void mainMatrix();
+
 // MARK: -
 
 template<typename T>

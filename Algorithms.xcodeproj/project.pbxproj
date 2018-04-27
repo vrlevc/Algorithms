@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A910BD7F20543CB5009CF180 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = A910BD7E20543CB5009CF180 /* main.mm */; };
-		A98E4B65205447FD00285E4B /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A98E4B63205447FD00285E4B /* Matrix.cpp */; };
+		A98E4B65205447FD00285E4B /* Matrix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98E4B63205447FD00285E4B /* Matrix.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,7 +26,8 @@
 /* Begin PBXFileReference section */
 		A910BD7B20543CB5009CF180 /* Algorithms */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Algorithms; sourceTree = BUILT_PRODUCTS_DIR; };
 		A910BD7E20543CB5009CF180 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
-		A98E4B63205447FD00285E4B /* Matrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
+		A9461894208F0B9100612F06 /* MaxArray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MaxArray.hpp; sourceTree = "<group>"; };
+		A98E4B63205447FD00285E4B /* Matrix.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Matrix.mm; sourceTree = "<group>"; };
 		A98E4B64205447FD00285E4B /* Matrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,8 +61,9 @@
 		A910BD7D20543CB5009CF180 /* Algorithms */ = {
 			isa = PBXGroup;
 			children = (
-				A98E4B63205447FD00285E4B /* Matrix.cpp */,
+				A98E4B63205447FD00285E4B /* Matrix.mm */,
 				A98E4B64205447FD00285E4B /* Matrix.hpp */,
+				A9461894208F0B9100612F06 /* MaxArray.hpp */,
 				A910BD7E20543CB5009CF180 /* main.mm */,
 			);
 			path = Algorithms;
@@ -124,7 +126,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A98E4B65205447FD00285E4B /* Matrix.cpp in Sources */,
+				A98E4B65205447FD00285E4B /* Matrix.mm in Sources */,
 				A910BD7F20543CB5009CF180 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
