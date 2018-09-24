@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A910BD7F20543CB5009CF180 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = A910BD7E20543CB5009CF180 /* main.mm */; };
+		A96BF2182093882700143524 /* MaxArray.mm in Sources */ = {isa = PBXBuildFile; fileRef = A96BF2172093882700143524 /* MaxArray.mm */; };
 		A98E4B65205447FD00285E4B /* Matrix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98E4B63205447FD00285E4B /* Matrix.mm */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		A910BD7B20543CB5009CF180 /* Algorithms */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Algorithms; sourceTree = BUILT_PRODUCTS_DIR; };
 		A910BD7E20543CB5009CF180 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		A9461894208F0B9100612F06 /* MaxArray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MaxArray.hpp; sourceTree = "<group>"; };
+		A96BF2172093882700143524 /* MaxArray.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MaxArray.mm; sourceTree = "<group>"; };
 		A98E4B63205447FD00285E4B /* Matrix.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Matrix.mm; sourceTree = "<group>"; };
 		A98E4B64205447FD00285E4B /* Matrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,9 +63,10 @@
 		A910BD7D20543CB5009CF180 /* Algorithms */ = {
 			isa = PBXGroup;
 			children = (
-				A98E4B63205447FD00285E4B /* Matrix.mm */,
 				A98E4B64205447FD00285E4B /* Matrix.hpp */,
+				A98E4B63205447FD00285E4B /* Matrix.mm */,
 				A9461894208F0B9100612F06 /* MaxArray.hpp */,
+				A96BF2172093882700143524 /* MaxArray.mm */,
 				A910BD7E20543CB5009CF180 /* main.mm */,
 			);
 			path = Algorithms;
@@ -128,6 +131,7 @@
 			files = (
 				A98E4B65205447FD00285E4B /* Matrix.mm in Sources */,
 				A910BD7F20543CB5009CF180 /* main.mm in Sources */,
+				A96BF2182093882700143524 /* MaxArray.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
