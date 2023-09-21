@@ -6,6 +6,9 @@
         "list": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp",
-        "array": "cpp"
+        "array": "cpp",
+        "numeric": "cpp",
+        "algorithm": "cpp",
+        "ostream": "cpp"
     }
 }
