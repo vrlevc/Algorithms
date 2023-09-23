@@ -76,9 +76,11 @@ public:
         // Topological order:
         for (int i=0; i<words.size(); ++i) 
         {
+            // Subproblem:
             int max_s = 0;
             for (int j=i-1; j>=0; --j) {
                 if ( words[i].length() - words[j].length() > 1 ) break;
+                // Relation
                 if (words[i].length() - words[j].length() == 1 && is_predecessor(words[j], words[i])) {
                     max_s = max( max_s, S[j] );
                 }
@@ -86,6 +88,7 @@ public:
             S[i] += max_s;
         }    
 
+        // Origin problem:
         return *max_element(S.begin(), S.end());
     }
 };
