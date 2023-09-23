@@ -47,21 +47,15 @@ using namespace std;
 
 class Solution {
 public:
+    // Is a is a predecessor b 
     bool is_predecessor(const string& a, const string& b) {
         int fails = 0;
-        auto i = a.begin();
-        auto j = b.begin();
-
+        auto i = a.begin(), j = b.begin();
         while (i!=a.end() && j!=b.end() && fails<2)
-        {
             if ( *i == *j ) { ++i; ++j; }
             else { ++fails; ++j; }
-        }        
-
         return i==a.end() && (fails==1||j!=b.end());
     }
-
-
 
     int longestStrChain(vector<string>& words) {
 
@@ -79,11 +73,13 @@ public:
             // Subproblem:
             int max_s = 0;
             for (int j=i-1; j>=0; --j) {
-                if ( words[i].length() - words[j].length() > 1 ) break;
-                // Relation
-                if (words[i].length() - words[j].length() == 1 && is_predecessor(words[j], words[i])) {
-                    max_s = max( max_s, S[j] );
-                }
+                // Optimization:
+                int d = words[i].length() - words[j].length();
+                if ( d > 1 ) break;
+                else if(d == 1 )
+                    // Relation
+                    if (is_predecessor(words[j], words[i])) 
+                        max_s = max( max_s, S[j] );
             }
             S[i] += max_s;
         }    
@@ -92,20 +88,6 @@ public:
         return *max_element(S.begin(), S.end());
     }
 };
-
-
-// return true if a is predecessor of b, false otherwise
-bool is_predecessor(string a, string b) {
-    int error_n = 0; // max 1
-    auto i = a.begin();
-    auto j = b.begin();
-
-    return true;
-}
-
-
-
-
 
 int main() 
 {
