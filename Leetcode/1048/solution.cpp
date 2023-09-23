@@ -61,9 +61,7 @@ public:
 
         // Prepare : sort and remove duplicates:
         sort(words.begin(), words.end(), [](const string& a, const string& b) { return a.length() < b.length(); });
-        auto last = unique(words.begin(), words.end());
-        words.erase(last, words.end());
-
+        
         // Base:
         vector<int> S(words.size(), 1);
 
