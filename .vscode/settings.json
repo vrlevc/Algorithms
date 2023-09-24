@@ -9,6 +9,8 @@
         "array": "cpp",
         "numeric": "cpp",
         "algorithm": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "string": "cpp",
+        "memory": "cpp"
     }
 }
