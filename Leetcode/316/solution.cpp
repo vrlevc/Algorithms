@@ -9,6 +9,11 @@ https://leetcode.com/problems/remove-duplicate-letters
 #include <iostream>
 using namespace std;
 
+#define IDX(c) c-'a'
+#define TOP(s) *(s-1)
+#define POP(s) TOP(s)=0;s-=1;
+#define PUSH(c,s) *s=c;s+=1;
+
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
@@ -18,17 +23,17 @@ public:
         char outs[M+1] = {0};
 
         for (short i=0; i<s.length(); ++i) 
-            poss[ s[i] - 'a' ] = max( poss[ s[i] - 'a' ], i );
+            poss[ IDX(s[i]) ] = max( poss[ IDX(s[i]) ], i );
         
         char* stack = outs;
         for (short i=0; i<s.length(); ++i) {
-            if (  !used[s[i] - 'a'] ) {
-                while ( stack!=outs && *(stack-1)>s[i] && i < poss[*(stack-1)-'a'] ) {
-                    used[*(stack-1)-'a'] = false;    
-                    *(stack-1) = 0; stack -= 1;
+            if (  !used[ IDX(s[i]) ] ) {
+                while ( stack!=outs && TOP(stack)>s[i] && i < poss[ IDX( TOP(stack)) ] ) {
+                    used[ IDX( TOP(stack)) ] = false;    
+                    POP(stack);
                 }
-                *stack = s[i]; stack += 1;
-                used[s[i] - 'a'] = true;
+                PUSH(s[i],stack);
+                used[ IDX(s[i]) ] = true;
             }
         }
 
