@@ -11,6 +11,8 @@
         "algorithm": "cpp",
         "ostream": "cpp",
         "string": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp"
     }
 }
